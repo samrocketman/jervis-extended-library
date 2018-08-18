@@ -1,0 +1,23 @@
+apply plugin: 'maven'
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    libs
+}
+dependencies {
+    libs 'org.yaml:snakeyaml:1.18'
+    libs 'net.gleske:jervis:1.2'
+}
+
+task libs(type: Copy) {
+    into 'lib'
+    from configurations.libs
+}
+
+task cleanLibs(type: Delete) {
+    delete 'lib'
+}
+clean.dependsOn cleanLibs
