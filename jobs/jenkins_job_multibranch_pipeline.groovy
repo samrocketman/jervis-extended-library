@@ -71,11 +71,11 @@ jenkinsJobMultibranchPipeline = { String JERVIS_BRANCH ->
                 numToKeep(20)
             }
         }
-        configure {
-            //overwrite default factory with the pipeline multibranch defaults plugin "Global Jenkinsfile"
-            Node factoryNode = it / factory
-            factoryNode.attributes().put 'class', 'org.jenkinsci.plugins.pipeline.multibranch.defaults.PipelineBranchDefaultsProjectFactory'
-            (factoryNode / 'owner').attributes().put 'class', 'org.jenkinsci.plugins.pipeline.multibranch.defaults.PipelineMultiBranchDefaultsProject'
+        factory {
+            pipelineBranchDefaultsProjectFactory {
+                sandbox false
+                scriptPath 'Jenkinsfile'
+            }
         }
         configure {
             def folderConfig = it / 'properties' / 'org.jenkinsci.plugins.pipeline.modeldefinition.config.FolderConfig'
