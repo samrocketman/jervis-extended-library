@@ -74,7 +74,7 @@ jenkinsJobMultibranchPipeline = { String JERVIS_BRANCH ->
         factory {
             pipelineBranchDefaultsProjectFactory {
                 sandbox true
-                scriptPath 'Jenkinsfile'
+                scriptId 'Jenkinsfile'
             }
         }
         configure {
