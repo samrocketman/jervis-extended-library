@@ -13,7 +13,7 @@ Map getDockerOptions(Map settings) {
     Map options = [
         image: 'jervis-agent-ubuntu2204',
         args: [
-            '--cap-add-NET_ADMIN',
+            '--cap-add=NET_ADMIN',
             '--group-add sudo'
         ]
     ]
