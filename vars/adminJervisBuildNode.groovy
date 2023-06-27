@@ -1,7 +1,7 @@
 import net.gleske.jervis.lang.PipelineGenerator
 
 @NonCPS
-List getDockerOptions(Map settings) {
+Map getDockerOptions(Map settings) {
     PipelineGenerator pipeline_generator
 
     if(('pipeline_generator' in settings) && (settings.pipeline_generator in PipelineGenerator)) {
