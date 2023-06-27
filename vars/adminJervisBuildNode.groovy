@@ -57,7 +57,7 @@ def setupEnv() {
 
 def call(Map settings, Closure body) {
     Map dockerCLI = getDockerOptions()
-    node('builtin') {
+    node('built-in') {
         if(dockerCLI.volume) {
             sh "docker volume create ${dockerCLI.volume}"
         }
