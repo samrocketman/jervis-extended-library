@@ -23,6 +23,8 @@ List getDockerOptions(Map settings) {
         options.args << "--privileged -v ${options.volume}:/var/lib/docker"
         options.args << '--group-add docker'
     }
+
+    options
 }
 
 /**
