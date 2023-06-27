@@ -1,3 +1,5 @@
+import hudson.model.Run
+import hudson.plugins.git.util.BuildData
 import net.gleske.jervis.lang.PipelineGenerator
 
 @NonCPS
