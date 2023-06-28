@@ -61,7 +61,7 @@ String getReferenceJob() {
         return ''
     }
     String targetBranch = head.target.name
-    if(!(targetBranch in currentBuild.rawBuild.parent.parent.items*.shortName)) {
+    if(!(targetBranch in currentBuild.rawBuild.parent.parent.items*.name)) {
         return ''
     }
     // return the target reference job
