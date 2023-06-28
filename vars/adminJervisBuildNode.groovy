@@ -1,5 +1,6 @@
 import hudson.model.Run
 import hudson.plugins.git.util.BuildData
+import jenkins.scm.api.SCMHead
 import net.gleske.jervis.lang.PipelineGenerator
 import org.jenkinsci.plugins.github_branch_source.PullRequestSCMHead
 import org.jenkinsci.plugins.workflow.multibranch.BranchJobProperty
@@ -49,6 +50,10 @@ String getHeadCommit(Run build) {
         ''
     }
 }
+
+/**
+  Use pull request metadata to resolve the target job for evaluating git forensics
+  */
 @NonCPS
 String getReferenceJob() {
     SCMHead head = currentBuild.rawBuild.parent?.getProperty(BranchJobProperty)?.branch?.head
@@ -72,8 +77,9 @@ def setupEnv() {
             env.HASH_VERSION = "${env.JOB_BASE_NAME}-${env.HEAD_SHORT_COMMIT}"
             env.RELEASE_VERSION = (env.TAG_NAME) ? env.TAG_NAME : env.HASH_VERSION
         }
-        if(getReferenceJob()) {
-            discoverReferenceBuild referenceJob: getReferenceJob()
+        String referenceJob = getReferenceJob()
+        if(referenceJob) {
+            discoverReferenceBuild referenceJob: referenceJob
         }
     }
 }
