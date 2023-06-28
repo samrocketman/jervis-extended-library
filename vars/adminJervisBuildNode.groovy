@@ -1,6 +1,8 @@
 import hudson.model.Run
 import hudson.plugins.git.util.BuildData
 import net.gleske.jervis.lang.PipelineGenerator
+import org.jenkinsci.plugins.github_branch_source.PullRequestSCMHead
+import org.jenkinsci.plugins.workflow.multibranch.BranchJobProperty
 
 @NonCPS
 Map getDockerOptions(Map settings) {
@@ -47,6 +49,20 @@ String getHeadCommit(Run build) {
         ''
     }
 }
+@NonCPS
+String getReferenceJob() {
+    SCMHead head = currentBuild.rawBuild.parent?.getProperty(BranchJobProperty)?.branch?.head
+    if(!(head in PullRequestSCMHead) || !head?.target?.name) {
+        return ''
+    }
+    String targetBranch = head.target.name
+    if(!(targetBranch in currentBuild.rawBuild.parent.parent.items*.shortName)) {
+        return ''
+    }
+    // return the target reference job
+    [currentBuild.rawBuild.parent.parent.fullName, targetBranch].join('/')
+
+}
 
 def setupEnv() {
     if(!env.HEAD_LONG_COMMIT) {
@@ -55,6 +71,9 @@ def setupEnv() {
             env.HEAD_SHORT_COMMIT = env.HEAD_LONG_COMMIT.substring(0, 7)
             env.HASH_VERSION = "${env.JOB_BASE_NAME}-${env.HEAD_SHORT_COMMIT}"
             env.RELEASE_VERSION = (env.TAG_NAME) ? env.TAG_NAME : env.HASH_VERSION
+        }
+        if(getReferenceJob()) {
+            discoverReferenceBuild referenceJob: getReferenceJob()
         }
     }
 }
