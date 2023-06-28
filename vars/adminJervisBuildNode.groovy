@@ -79,8 +79,9 @@ def setupEnv() {
         }
         String referenceJob = getReferenceJob()
         if(referenceJob) {
-            discoverReferenceBuild referenceJob: referenceJob
+            referenceJob = currentBuild.rawBuild.parent.fullName
         }
+        discoverReferenceBuild referenceJob: referenceJob
     }
 }
 
